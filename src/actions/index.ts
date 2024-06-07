@@ -1,7 +1,9 @@
+import * as monaco from 'monaco-editor';
 import { Select } from './select';
 import { Button } from './button';
 import { fileManager } from "../cache";
 import { DefaultTsConfig, DefaultTsConfigFileName } from "../typescript";
+import { setTheme } from '../themes';
 
 export const themeSelect = new Select('theme');
 export const projectSelect = new Select('project');
@@ -10,6 +12,16 @@ export const newProjectBtn = new Button('new_project');
 export const delProjectBtn = new Button('delete_project');
 export const addFileBtn = new Button('add_file');
 export const delFileBtn = new Button('delete_file');
+
+const defaultTheme = localStorage.getItem('monaco-theme');
+if (defaultTheme) {
+  setTheme(monaco, defaultTheme);
+} 
+
+themeSelect.onChange(() => {
+  localStorage.setItem('monaco-theme', themeSelect.value);
+  setTheme(monaco, themeSelect.value);
+});
 
 newProjectBtn.onClick(() => { 
   const projectName = prompt("Please input project name:", 'helloworld');
