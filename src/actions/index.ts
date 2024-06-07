@@ -54,6 +54,11 @@ addFileBtn.onClick(async () => {
     return;
   }
 
+  if (!fileName.endsWith('.ts') && !fileName.endsWith('.json')) {
+    alert('The file name is invalid, only `.ts` and `.json` supported.');
+    return;
+  }
+
   const currentProject = projectSelect.value;
   
   const files = await fileManager.geProjectFiles(currentProject);
