@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monaco TS</title>
+</head>
+
+<body>
+  <div class="actions">
+    <select name="theme" id="theme">
+      <option value="vs">VS</option>
+      <option value="vs-dark">VS Dark</option>
+      <option value="hc-light">HC Light</option>
+      <option value="hc-black">HC Black</option>
+      <option value="atom-light">Atom Light</option>
+      <option value="atom-dark">atom-dark</option>
+      <option value="codesandbox">CodeSandbox</option>
+      <option value="codesandbox-light">CodeSandbox Light</option>
+      <option value="noctis">Noctis</option>
+      <option value="viola">Viola</option>
+      <option value="uva">UVA</option>
+    </select>
+
+    <span>&nbsp&nbsp&nbsp</span>
+
+    <select name="project" id="project">
+      <option value="default">default</option>
+    </select>
+    <button id="delete_project">Delete Project</button>
+    <button id="new_project">New Project</button>
+    <span>&nbsp&nbsp&nbsp</span>
+    <select name="file" id="file">
+      <option value="/index.ts">/index.ts</option>
+      <option value="/pages/utils.ts">/pages/utils.ts</option>
+      <option value="/pages/types/index.ts">/pages/types/index.ts</option>
+      <option value="/node_modules/@mod/utils.ts">/node_modules/@mod/utils.ts</option>
+    </select>
+    <button id="delete_file">Delete File</button>
+    <button id="add_file">Add File</button>
+  </div>
+  <div id="<%= mountId %>"></div>
+</body>
+
+</html>
