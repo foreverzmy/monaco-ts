@@ -1,3 +1,5 @@
+import Main from './index';
+
 self.MonacoEnvironment = {
 	getWorker: (moduleId, label) => {
 		if (label === 'json') {
@@ -37,3 +39,7 @@ self.MonacoEnvironment = {
 		);
 	},
 };
+
+window.addEventListener('DOMContentLoaded', () => { 
+  new Main();
+});

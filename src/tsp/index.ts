@@ -1,6 +1,7 @@
 import type Monaco from 'monaco-editor';
 import debounce from 'lodash/debounce';
-import { dirname, formatCompilerOptions, join } from './utils';
+import { dirname, join } from '../utils/path';
+import { formatCompilerOptions } from './utils';
 import type { FileData, ModuleCorrection, ModuleError } from '../types';
 import { DefaultCompilerOptions } from './constant';
 import { setTheme } from '../themes';
@@ -222,6 +223,9 @@ export class TSP {
   private openNewModel = async (filePath: string) => {
     const modelInfo = await this.getModelByPath(filePath);
     const newCode = this.files[filePath]?.content;
+    if (!modelInfo) {
+      return;
+    }
 
     if (newCode !== modelInfo.model.getValue(1)) {
       modelInfo.model.setValue(newCode);

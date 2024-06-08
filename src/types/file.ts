@@ -1,5 +1,8 @@
+export interface ProjectData {
+	name: string;
+}
+
 export interface FileData {
-	id?: number;
 	project: string;
 	filepath: string;
 	content: string;
@@ -7,7 +10,10 @@ export interface FileData {
 
 export type FileChangeType = 'add' | 'delete' | 'update';
 
-export type FileUpdateCallback = (type: FileChangeType, file: FileData) => void;
+
+export type ProjectChangeCallback = (type: FileChangeType, project: ProjectData) => void;
+
+export type FileChangeCallback = (type: FileChangeType, file: FileData) => void;
 
 export interface FileRecord {
   [key: string]: string;
