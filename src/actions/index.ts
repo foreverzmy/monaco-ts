@@ -2,7 +2,7 @@ import * as monaco from 'monaco-editor';
 import { Select } from './select';
 import { Button } from './button';
 import { fileManager } from "../cache";
-import { DefaultTsConfig, DefaultTsConfigFileName } from "../typescript";
+import { DefaultTsConfig, TsConfigFileName } from "../typescript";
 import { setTheme } from '../themes';
 
 export const themeSelect = new Select('theme');
@@ -15,24 +15,37 @@ export const delFileBtn = new Button('delete_file');
 
 const defaultTheme = localStorage.getItem('monaco-theme');
 if (defaultTheme) {
+  themeSelect.value = defaultTheme;
   setTheme(monaco, defaultTheme);
-} 
+}
+
+const defaultProject = localStorage.getItem('current-project');
+if (defaultProject) {
+  projectSelect.value = defaultProject;
+}
 
 themeSelect.onChange(() => {
   localStorage.setItem('monaco-theme', themeSelect.value);
   setTheme(monaco, themeSelect.value);
 });
 
+projectSelect.onChange(() => { 
+  localStorage.setItem('current-project', projectSelect.value);
+});
+
 newProjectBtn.onClick(() => { 
   const projectName = prompt("Please input project name:", 'helloworld');
+  if (!projectName) {
+    return
+  }
 
-  if (!projectName || !/^[a-zA-Z0-9_-]+$/.test(projectName)) {
+  if (!/^[a-zA-Z0-9_-]+$/.test(projectName)) {
     alert('The project name is invalid.')
     return
   }
 
   fileManager.newProject(projectName, [{
-    filepath: DefaultTsConfigFileName,
+    filepath: TsConfigFileName,
     content: DefaultTsConfig
   }]);
 });
@@ -46,8 +59,9 @@ delProjectBtn.onClick(() => {
 });
 
 delFileBtn.onClick(() => { 
-  if (fileSelect.value === DefaultTsConfigFileName) {
+  if (fileSelect.value === TsConfigFileName) {
     alert('"/tsconfig.json" connot be deleted.')
+    return
   }
 
   const currentProject = projectSelect.value;
@@ -61,7 +75,11 @@ delFileBtn.onClick(() => {
 addFileBtn.onClick(async () => {
   const fileName = prompt("Please input file name:", '/src/index.ts');
 
-  if (!fileName || !/^\/([a-zA-Z0-9_-]+\/?)*(\.\w+)?$/.test(fileName)) {
+  if (!fileName) {
+    return
+  }
+
+  if (!/^\/([a-zA-Z0-9_-]+\/?)*(\.\w+)?$/.test(fileName)) {
     alert('The file name is invalid.');
     return;
   }

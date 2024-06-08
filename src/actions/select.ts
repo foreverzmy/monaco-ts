@@ -1,21 +1,25 @@
 export class Select {
   #el: HTMLSelectElement;
+  #value: string;
   #callbacks: Array<(value: string) => void> = [];
 
   constructor(id: string) {
     this.#el = document.getElementById(id) as HTMLSelectElement;
+    this.#value = this.#el.value;
 
     this.#el.addEventListener('change', () => { 
+      this.#value = this.#el.value;
       this.#callbacks.forEach(cb => cb(this.#el.value));
     });
   }
 
   get value() {
-    return this.#el.value;
+    return this.#value;
   }
 
   set value(value: string) {
     this.#el.value = value;
+    this.#value = value;
     this.#callbacks.forEach(cb => cb(this.#el.value));
   }
 

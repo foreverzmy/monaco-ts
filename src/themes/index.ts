@@ -31,8 +31,11 @@ export const setTheme = (monaco: typeof Monaco, themeName: string) => {
 		const transformedTheme = themes[themeName] ?? defaultTheme;
 		const base = getBase(transformedTheme.type);
 		const background = transformedTheme.colors['editor.background'] || MonacoBuiltinThemeBackground[base];
+		const border = transformedTheme.colors['editorGroup.border'];
 
-    document.body.style.background = background;
+		document.body.style.background = background;
+		const actionEl = document.getElementsByClassName('actions')[0] as HTMLDivElement;
+		actionEl.style.borderBottomColor = border;
 
 		try {
 			monaco.editor.defineTheme(themeName, {

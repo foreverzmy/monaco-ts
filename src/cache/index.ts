@@ -1,12 +1,4 @@
-export interface FileData {
-	id?: number;
-	project: string;
-	filepath: string;
-	content: string;
-}
-
-type FileChangeType = 'add' | 'delete' | 'update';
-type FileUpdateCallback = (type: FileChangeType, file: FileData) => void;
+import type { FileData, FileChangeType, FileUpdateCallback } from '../types';
 
 const dbName = 'monaco-tsp';
 
@@ -76,16 +68,16 @@ export class FileManager {
 						const transaction = this.db!.transaction(['files'], 'readwrite');
 						const objectStore = transaction.objectStore('files');
 
-            files.forEach((file) => {
-              objectStore.add({ ...file, project });
-            });
+						files.forEach((file) => {
+							objectStore.add({ ...file, project });
+						});
 
 						transaction.oncomplete = () => {
 							resolve(null);
 						};
 
 						transaction.onerror = (event) => {
-              reject('Add file error: ' + (event.target as IDBRequest).error);
+							reject('Add file error: ' + (event.target as IDBRequest).error);
 						};
 					}
 				};
@@ -95,9 +87,9 @@ export class FileManager {
 				};
 			}
 		});
-  }
-  
-  public getProjects(): Promise<string[]> {
+	}
+
+	public getProjects(): Promise<string[]> {
 		return new Promise((resolve, reject) => {
 			if (!this.db) {
 				reject('Database is not initialized');
@@ -107,14 +99,13 @@ export class FileManager {
 			const transaction = this.db.transaction(['projects'], 'readonly');
 			const objectStore = transaction.objectStore('projects');
 			const index = objectStore.index('name');
-      const request = index.getAll();
-
-
+			const request = index.getAll();
 
 			request.onsuccess = (event) => {
-        const result = (event.target as IDBRequest<Array<{ name: string }>>).result;
+				const result = (event.target as IDBRequest<Array<{ name: string }>>)
+					.result;
 				if (result && result.length > 0) {
-          resolve(result.map(project => project.name))
+					resolve(result.map((project) => project.name));
 				} else {
 					resolve([]);
 				}
@@ -125,7 +116,6 @@ export class FileManager {
 			};
 		});
 	}
-
 
 	public deleteProject(project: string): Promise<void> {
 		return new Promise((resolve, reject) => {
@@ -196,14 +186,14 @@ export class FileManager {
 			request.onsuccess = (event) => {
 				const record = (event.target as IDBRequest<IDBCursorWithValue>).result;
 
-				let mr: IDBRequest<IDBValidKey>
+				let mr: IDBRequest<IDBValidKey>;
 				let type: FileChangeType = 'update';
 				if (record) {
 					if (record.value.project === file.project) {
 						mr = record.update({ ...record.value, ...file });
 					} else {
 						record.continue();
-						return
+						return;
 					}
 				} else {
 					type = 'add';
@@ -252,7 +242,9 @@ export class FileManager {
 						};
 
 						dr.onerror = (event) => {
-							reject('Delete file error: ' + (event.target as IDBRequest).error);
+							reject(
+								'Delete file error: ' + (event.target as IDBRequest).error,
+							);
 						};
 					} else {
 						resolve();
@@ -260,11 +252,42 @@ export class FileManager {
 				} else {
 					resolve();
 				}
-
 			};
 
 			request.onerror = (event) => {
 				reject('Delete file error: ' + (event.target as IDBRequest).error);
+			};
+		});
+	}
+
+	public geProjectFile(project: string, filepath: string): Promise<FileData | null> {
+		return new Promise((resolve, reject) => {
+			if (!this.db) {
+				reject('Database is not initialized');
+				return;
+			}
+
+			const transaction = this.db.transaction(['files'], 'readonly');
+			const objectStore = transaction.objectStore('files');
+			const index = objectStore.index('project');
+			const request = index.openCursor(IDBKeyRange.only(project));
+
+			request.onsuccess = (event) => {
+				const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result;
+				if (cursor) {
+					const file = cursor.value as FileData;
+					if (file.filepath === filepath) {
+						resolve(file);
+					} else {
+						cursor.continue();
+					}
+				} else {
+					resolve(null);
+				}
+			};
+
+			request.onerror = (event) => {
+				reject('Get file error: ' + (event.target as IDBRequest).error);
 			};
 		});
 	}
@@ -298,7 +321,6 @@ export class FileManager {
 			};
 		});
 	}
-
 
 	public onFileChange(callback: FileUpdateCallback) {
 		this.fileChangeCallbacks.push(callback);

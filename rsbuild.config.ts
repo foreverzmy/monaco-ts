@@ -4,7 +4,7 @@ import { defineConfig } from '@rsbuild/core';
 export default defineConfig({
   source: {
     entry: {
-      index: ['./src/index.ts'],
+      index: ['./src/config.ts', './src/index.ts'],
     },
   },
   html: {
