@@ -7,6 +7,9 @@ export default defineConfig({
       index: ['./src/style.css', './src/bootstrap.ts'],
     },
   },
+  output: {
+    assetPrefix: '/monaco-ts/'
+  },
   html: {
     template: './index.html'
   }

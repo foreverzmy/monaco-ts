@@ -19,3 +19,12 @@ export const DefaultCompilerOptions: languages.typescript.CompilerOptions = {
 
   newLine: languages.typescript.NewLineKind.LineFeed,
 };
+
+export const fileLanguage: Record<string, string> = {
+  'md': 'markdown',
+  'json': 'json',
+  'ts': 'typescript',
+  'js': 'typescript',
+  'css': 'css',
+  'scss': 'css',
+};

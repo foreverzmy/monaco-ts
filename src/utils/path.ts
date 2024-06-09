@@ -43,3 +43,12 @@ export function join(...paths: string[]): string {
 	const result = parts.join('/');
 	return joinedPath.startsWith('/') ? `/${result}` : result;
 }
+
+export const getFileExtension = (filePath: string) => {
+	// 使用正则表达式匹配文件后缀
+	const regex = /(?:\.([^.]+))?$/;
+	const match = regex.exec(filePath);
+
+	// 返回匹配的后缀，如果没有匹配到则返回空字符串
+	return match && match[1] ? match[1] : '';
+}

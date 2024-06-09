@@ -35,10 +35,9 @@ export class ActionManager {
 	}
 
   initTheme = async () => {
-		const defaultTheme = localStorage.getItem(STORAGE_THEME_KEY);
+		const defaultTheme = localStorage.getItem(STORAGE_THEME_KEY) ?? 'noctis';
     if (defaultTheme) {
 			this.themeSelect.value = defaultTheme;
-      
 		}
 		this.themeSelect.onChange(() => {
 			localStorage.setItem(STORAGE_THEME_KEY, this.themeSelect.value);
@@ -161,8 +160,8 @@ export class ActionManager {
       return;
     }
   
-    if (!fileName.endsWith('.ts') && !fileName.endsWith('.json')) {
-      alert('The file name is invalid, only `.ts` and `.json` supported.');
+    if (!fileName.endsWith('.ts') && !fileName.endsWith('.json') && !fileName.endsWith('.md')) {
+      alert('The file name is invalid, only `.ts`/`.json`/`.md` supported.');
       return;
     }
   

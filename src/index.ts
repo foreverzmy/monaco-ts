@@ -1,7 +1,6 @@
 import * as monaco from 'monaco-editor';
 import { ActionManager } from "./actions";
 import { ProjectStorageLocal } from "./storage";
-import { setTheme } from "./themes";
 import { TSP } from './tsp';
 import { demoFiles } from './typescript';
 
@@ -34,7 +33,7 @@ export default class Main {
 
   syncTheme = () => {
     this.action.themeSelect.onChange((theme) => {
-      setTheme(monaco, theme);
+      this.tsp.updateTheme(theme);
     });
   }
 
@@ -68,13 +67,13 @@ export default class Main {
       tabSize: 2,
       insertSpaces: true,
     });
-		await this.tsp.configureEditor(editor);
+    await this.tsp.configureEditor(editor);
+    this.tsp.updateTheme(this.action.themeSelect.value);
   };
-  
 
 	initDemoProject = async () => {
 		try {
-			await this.storage.newProject({ name: 'demo' }, demoFiles);
+      await this.storage.newProject({ name: 'demo' }, demoFiles);
 		} catch (err) {
 			// do nothing
 		}

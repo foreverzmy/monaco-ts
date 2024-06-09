@@ -27,8 +27,9 @@ export class ProjectStorageLocal implements ProjectStorage {
       return Promise.reject(new Error('Project exists.'));
     }
     await mkdir(data.name);
-    if (files.length) {
-      await Promise.all(files.map(file => this.addOrUpdateFile({ ...file, project: data.name })));
+    for (const file of files) {
+      // DO NOT USE Promise.all
+      await this.addOrUpdateFile({ ...file, project: data.name });
     }
     this.notifyProjectChange('add', data);
     return data;

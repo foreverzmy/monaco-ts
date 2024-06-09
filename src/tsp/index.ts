@@ -1,9 +1,9 @@
 import type Monaco from 'monaco-editor';
 import debounce from 'lodash/debounce';
-import { dirname, join } from '../utils/path';
+import { dirname, getFileExtension, join } from '../utils/path';
 import { formatCompilerOptions } from './utils';
 import type { FileData, ModuleCorrection, ModuleError } from '../types';
-import { DefaultCompilerOptions } from './constant';
+import { DefaultCompilerOptions, fileLanguage } from './constant';
 import { setTheme } from '../themes';
 import { TsConfigFileName, tsConfigSchema } from '../typescript';
 
@@ -72,8 +72,9 @@ export class TSP {
     this.creatingModelMap.set(filePath, (async () => {
       const monaco = this.monaco;
       const lib = this.addLib(fileContent, filePath);
-
-      const language = filePath.endsWith('.json') ? 'json' : 'typescript';
+      
+      const ext = getFileExtension(filePath);
+      const language = fileLanguage[ext] || '';
       const model = monaco.editor.createModel(
         fileContent,
         language,
