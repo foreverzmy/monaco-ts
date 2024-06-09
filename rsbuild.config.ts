@@ -8,7 +8,7 @@ export default defineConfig({
     },
   },
   output: {
-    assetPrefix: '/monaco-ts/'
+    assetPrefix: '/monaco-tsp/'
   },
   html: {
     template: './index.html'
