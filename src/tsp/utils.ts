@@ -21,9 +21,15 @@ export const flattenFiles = (files: LayeredObject): FileRecord => {
 	return result;
 };
 
-export const formatCompilerOptions = (options: Monaco.languages.typescript.CompilerOptions): Monaco.languages.typescript.CompilerOptions => { 
+export const formatCompilerOptions = (
+	options: Monaco.languages.typescript.CompilerOptions,
+): Monaco.languages.typescript.CompilerOptions => {
 	return {
 		...options,
-		lib: options.lib?.map(lib => lib.toLocaleLowerCase()),
-	}
-}
+		lib: options.lib?.map((lib) => lib.toLocaleLowerCase()),
+		moduleResolution:
+			options.moduleResolution?.toString()?.toLocaleLowerCase() === 'classic'
+				? 1
+				: 2,
+	};
+};

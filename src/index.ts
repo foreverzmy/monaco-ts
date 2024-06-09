@@ -48,6 +48,18 @@ export default class Main {
     this.action.fileSelect.onChange(filepath => {
       this.tsp.changeFile(filepath);
     });
+    this.storage.onFileChange(async (type, file) => {
+      switch (type) { 
+        case 'add':
+          await this.tsp.addFiles([file]);
+          this.action.fileSelect.value = file.filepath;
+          break;
+        case 'delete':
+          await this.tsp.removeFile(file.filepath);
+          this.action.fileSelect.value = this.action.fileSelect.options?.[0].value ?? '';
+          break;
+      }
+    });
   }
 
   initEditor = async () => {

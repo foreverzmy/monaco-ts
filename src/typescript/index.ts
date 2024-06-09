@@ -7,6 +7,6 @@ export const DefaultTsConfig = JSON.stringify(tsConfig, null, 2);
 export const demoFiles = [
   {
     filepath: '/tsconfig.json',
-    content: DefaultTsConfig
+    content: DefaultTsConfig,
   }
 ]

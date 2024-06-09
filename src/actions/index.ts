@@ -63,23 +63,11 @@ export class ActionManager {
 		});
   }
 
-  initFile = async () => { 
-    this.storage.onFileChange(async (type, file) => {
-      await this.syncFileOptions();
-      switch (type) {
-        case 'add':
-          this.fileSelect.value = file.filepath;
-          break;
-        case 'delete':
-          this.fileSelect.value = this.fileSelect.options?.[0].value;
-          break;
-      }
-    });
-
+  initFile = async () => {
     this.fileSelect.onChange(() => {
       const currentProject = this.projectSelect.value;
 			localStorage.setItem(getStorageProjectActiveFileKey(currentProject), this.fileSelect.value);
-		});
+    });
   }
   
   syncProjectOptions = async () => {

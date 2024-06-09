@@ -50,12 +50,15 @@ export class TSP {
   };
 
   public removeFile = async (filepath: string) => {
+    this.creatingModelMap.delete(filepath);
     delete this.files[filepath];
+    this.modelCache[filepath]?.model.dispose();
+    delete this.modelCache[filepath];
     this.updateModules();
   }
 
   private initializeModules = (files: FileData[] = Object.values(this.files)) => {
-    Promise.all(files.map((file) => this.createModel(file.filepath, file.content)));
+    return Promise.all(files.map((file) => this.createModel(file.filepath, file.content)));
   }
 
   private createModel = (
@@ -564,13 +567,13 @@ export class TSP {
     const newCode = this.editor?.getModel()?.getValue(1) || '';
     // const { currentModule } = this;
     // const { title } = currentModule;
-
     const oldCode = this.files[this.currentFile]?.content || '';
 
     const codeEquals =
       oldCode.replace(/\r\n/g, '\n') === newCode.replace(/\r\n/g, '\n');
 
     if (!codeEquals) {
+      this.files[this.currentFile].content = newCode;
       this.codeChangeCallbacks.forEach(cb => cb(newCode));
       // this.lint(newCode, title, this.editor.getModel().getVersionId());
     }
