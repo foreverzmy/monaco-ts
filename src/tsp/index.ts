@@ -5,7 +5,7 @@ import { formatCompilerOptions } from './utils';
 import type { FileData, ModuleCorrection, ModuleError } from '../types';
 import { DefaultCompilerOptions } from './constant';
 import { setTheme } from '../themes';
-import { TsConfigFileName } from '../typescript';
+import { TsConfigFileName, tsConfigSchema } from '../typescript';
 
 interface ModelCache {
 	model: Monaco.editor.IModel;
@@ -29,6 +29,14 @@ export class TSP {
 		this.commitLibChanges = debounce(this.commitLibChanges, 300);
     this.resizeEditor = debounce(this.resizeEditorInstantly, 150);
     this.notifySave = debounce(this.notifySave, 300);
+    this.monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+      validate: true,
+      schemas: [{
+        uri: 'https://json.schemastore.org/tsconfig',
+        fileMatch: ['**/tsconfig.json'],
+        schema: tsConfigSchema
+      }],
+    });
   }
 
   public addFiles = async (files: FileData[]) => {
