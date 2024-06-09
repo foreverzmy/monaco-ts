@@ -149,7 +149,7 @@ export class ActionManager {
   }
 
   handleAddFile = async () => { 
-    const fileName = prompt('Please input file name:', '/src/index.ts');
+    const fileName = prompt('Please input file name:', '/index.ts');
   
     if (!fileName) {
       return;

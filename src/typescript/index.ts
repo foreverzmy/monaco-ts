@@ -28,4 +28,17 @@ export const demoFiles = [
     filepath: '/tsconfig.json',
     content: DefaultTsConfig,
   },
+  {
+    filepath: '/index.ts',
+    content: `import { sum } from './utils';
+
+window.addEventListener('DOMContentLoaded', () => {
+  alert(sum('hello', 'world'));
+});
+    `,
+  },
+  {
+    filepath: '/utils.ts',
+    content: `export const sum = (a: number, b: number) => a + b;`,
+  },
 ]
