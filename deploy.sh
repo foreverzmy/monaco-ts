@@ -16,7 +16,7 @@ git commit -m 'deploy'
 
 # 将构建产物推送到 gh-pages 分支
 # 替换 <USERNAME>/<REPO> 为你的 GitHub 用户名和仓库名
-git push -f git@github.com:piex/monaco-tsp.git main:gh-pages
+git push -f git@github.com:piex/TSWebStudio.git main:gh-pages
 rm -rf .git
 
 cd -

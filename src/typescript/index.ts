@@ -7,7 +7,7 @@ export const DefaultTsConfig = JSON.stringify(tsConfig, null, 2);
 export const demoFiles = [
   {
     filepath: '/README.md',
-    content: `# Monaco TS Project Online
+    content: `# TypeScript Web Studio
 
 ## Features
 
