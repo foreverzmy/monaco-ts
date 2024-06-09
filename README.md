@@ -9,8 +9,8 @@
 
 ## Usage
 
-1. Click the "New Project" button to create a new TypeScript project. A \`tsconfig.json\` file will be generated automatically.
-2. Click the "Add File" button to add a new file. Supports \`.ts\`, \`.json\`, and \`.md\` file types.
+1. Click the "New Project" button to create a new TypeScript project. A `tsconfig.json` file will be generated automatically.
+2. Click the "Add File" button to add a new file. Supports `.ts`, `.json`, and `.md` file types.
 3. Edit files and import modules from other files within the project.
 4. Press [Cmd + S] to cache your file. Files are not cache automatically and will be lost upon closing the browser if not saved manually.
 
